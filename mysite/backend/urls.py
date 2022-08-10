@@ -12,6 +12,6 @@ router.register('profile', views.ProfileViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('node-token', views.node_token),
-    
+    path('node-token/', views.node_token),
+    path('withdraw-domain/', views.withdraw_domain),
 ]

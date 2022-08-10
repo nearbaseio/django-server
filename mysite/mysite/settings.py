@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-)bgs&)*^ie0xy1_&p!-5r=*y^v1rp*5fxb)ynmm&2g44w-nr5=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -59,7 +59,18 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    ]
+        # 'knox.auth.TokenAuthentication'
+    ],
+    # 'DATETIME_FORMAT': "%d/%m/%Y %H:%M:%S",
+    # 'DATE_INPUT_FORMATS': ["%d-%m-%Y",'%Y-%m-%d'],
+    # 'DATE_FORMAT':["%d-%m-%Y",'%Y-%m-%d'],
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 ROOT_URLCONF = 'mysite.urls'
@@ -88,12 +99,21 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+ #   }
+#}#
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+       'NAME': 'nearbase',
+       'USER': 'postgres',
+       'PASSWORD': '0VGsJjSkNbXMCKeBE8T6SRhba3x0ejUz',
+       'HOST': 'localhost',
+       'PORT': '5432',
+}}
 
 
 # Password validation
@@ -133,7 +153,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
-MEDIA_URL = '/images/'
-
-MEDIA_ROOT = 'static/images'
+STATIC_URL = '/static_nearbase/'
+STATIC_ROOT ='static'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media/images'

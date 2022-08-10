@@ -30,8 +30,8 @@ class Domain(models.Model):
         #return "Nombre: %s, ID_dominio:%s"%(self.domain,self.id)
 
 class DomainCredentials(models.Model):
-    id_contract = models.PositiveIntegerField()
-    domain= models.CharField(max_length= 255, unique=True, primary_key=True)
+    id_contract = models.PositiveIntegerField(primary_key=True)
+    domain= models.CharField(max_length= 255, unique=True)
     seedPhrase = models.CharField(max_length= 255)
     secretKey = models.CharField(max_length= 255)
     publicKey = models.CharField(max_length= 255)

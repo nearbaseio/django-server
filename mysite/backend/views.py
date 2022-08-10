@@ -1,4 +1,5 @@
 # Imports
+from httplib2 import Credentials
 from .serializers import *
 from .models import *
 from rest_framework import viewsets,status
@@ -10,7 +11,9 @@ from django.contrib.auth.models import User
 from rest_framework.decorators import api_view,permission_classes,authentication_classes
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authentication import SessionAuthentication,BasicAuthentication,TokenAuthentication
-
+import json
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
 # Create your views here.
 
 class ProfileViewSet(viewsets.ModelViewSet):
@@ -125,6 +128,19 @@ class MarketViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 """
+
+@api_view(["POST"])
+@csrf_exempt
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def withdraw_domain(request):
+    data = request.data
+    if data['id_contract']:
+        item = DomainCredentials.objects.get(id_contract=data['id_contract'])
+        data = DomainCredentialsSerializer(item).data
+        item.delete()
+        return Response(data,status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
 
 @api_view(["POST"])
 @csrf_exempt
